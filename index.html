@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bankist | Modern Banking Simplified</title>
+    <link rel="shortcut icon" type="image/png" href="img/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="loading-logo">
+          <img src="img/icon.png" alt="Bankist" />
+        </div>
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+        <p class="loading-text">Loading your banking experience...</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="container nav__content">
+        <div class="nav__left">
+          <button
+            id="dark-mode-toggle"
+            class="dark-mode-btn"
+            aria-label="Toggle dark mode"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle class="sun" cx="12" cy="12" r="5" />
+              <line class="sun-ray" x1="12" y1="1" x2="12" y2="3" />
+              <line class="sun-ray" x1="12" y1="21" x2="12" y2="23" />
+              <line class="sun-ray" x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line
+                class="sun-ray"
+                x1="18.36"
+                y1="18.36"
+                x2="19.78"
+                y2="19.78"
+              />
+              <line class="sun-ray" x1="1" y1="12" x2="3" y2="12" />
+              <line class="sun-ray" x1="21" y1="12" x2="23" y2="12" />
+              <line class="sun-ray" x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line class="sun-ray" x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              <path
+                class="moon"
+                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+              />
+            </svg>
+          </button>
+          <img src="img/logo.png" alt="Bankist logo" class="nav__logo" />
+        </div>
+        <button
+          class="nav__toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <span class="nav__toggle-icon"></span>
+        </button>
+        <ul class="nav__links" id="nav-menu">
+          <li><a href="#features" class="nav__link">Features</a></li>
+          <li><a href="#operations" class="nav__link">Operations</a></li>
+          <li><a href="#testimonials" class="nav__link">Testimonials</a></li>
+          <li>
+            <a href="login.html" class="nav__link nav__link--btn">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" aria-hidden="true"></div>
+
+    <header class="header">
+      <div class="container header__content">
+        <h1 class="header__title">
+          When <span class="highlight">Banking</span> Meets<br />
+          <span class="highlight">Minimalism</span>
+        </h1>
+        <h4 class="header__subtitle">
+          A simpler banking experience for a simpler life.
+        </h4>
+        <div class="header__btns">
+          <a href="login.html" class="btn btn--primary">Open Account &rarr;</a>
+          <a href="#features" class="btn btn--scroll-to">Learn More &rarr;</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="features">
+      <div class="container">
+        <h2 class="section__title">Our Features</h2>
+        <div class="features">
+          <div class="feature">
+            <img
+              src="img/digital.jpg"
+              alt="Digital Banking"
+              class="feature__img"
+              loading="lazy"
+            />
+            <div class="feature__content">
+              <h5 class="feature__title">100% Digital Bank</h5>
+              <p>
+                Manage your finances online with ease, anytime, anywhere, with
+                our secure and intuitive platform.
+              </p>
+            </div>
+          </div>
+          <div class="feature">
+            <img
+              src="img/growthh.jpg"
+              alt="Wealth Growth"
+              class="feature__img"
+              loading="lazy"
+            />
+            <div class="feature__content">
+              <h5 class="feature__title">Grow Your Wealth</h5>
+              <p>
+                Maximize your savings with competitive interest rates and smart
+                investment options.
+              </p>
+            </div>
+          </div>
+          <div class="feature">
+            <img
+              src="img/card.jpg"
+              alt="Debit Card"
+              class="feature__img"
+              loading="lazy"
+            />
+            <div class="feature__content">
+              <h5 class="feature__title">Free Debit Card</h5>
+              <p>
+                Enjoy a free debit card with no hidden fees, perfect for all
+                your daily transactions.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__number" data-target="1000000">0</span>
+            <p>Happy Customers</p>
+          </div>
+          <div class="stat">
+            <span class="stat__number" data-target="500">0</span>
+            <p>Branches Worldwide</p>
+          </div>
+          <div class="stat">
+            <span class="stat__number" data-target="24">0</span>
+            <p>Hours Support</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="operations">
+      <div class="container">
+        <h2 class="section__title">Our Operations</h2>
+        <div class="operations">
+          <div class="operations__tab-container">
+            <button
+              class="btn operations__tab operations__tab--1 operations__tab--active"
+              data-tab="1"
+              aria-selected="true"
+            >
+              <svg viewBox="0 0 24 24" class="operations__tab-icon">
+                <path
+                  d="M3 10h18M3 14h18M12 2l8 8-8 8-8-8 8-8z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+              <span>01</span> Instant Transfers
+            </button>
+            <button
+              class="btn operations__tab operations__tab--2"
+              data-tab="2"
+              aria-selected="false"
+            >
+              <svg viewBox="0 0 24 24" class="operations__tab-icon">
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M3 12h18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>02</span> Instant Loans
+            </button>
+            <button
+              class="btn operations__tab operations__tab--3"
+              data-tab="3"
+              aria-selected="false"
+            >
+              <svg viewBox="0 0 24 24" class="operations__tab-icon">
+                <path
+                  d="M3 6h18M3 12h18M3 18h18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9 6v12M15 6v12"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="2"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+              <span>03</span> Instant Closing
+            </button>
+            <button
+              class="btn operations__tab operations__tab--4"
+              data-tab="4"
+              aria-selected="false"
+            >
+              <svg viewBox="0 0 24 24" class="operations__tab-icon">
+                <path
+                  d="M12 2a10 10 0 0 0-10 10c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 8v4l3 3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>04</span> Instant Requests
+            </button>
+          </div>
+          <div
+            class="operations__content operations__content--1 operations__content--active"
+          >
+            <div class="operations__content-inner">
+              <svg viewBox="0 0 24 24" class="operations__icon">
+                <path
+                  d="M3 10h18M3 14h18M12 2l8 8-8 8-8-8 8-8z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+              <div class="operations__text">
+                <h5 class="operations__title">
+                  Transfer Money Instantly, No Fees!
+                </h5>
+                <p>
+                  Send money to anyone in seconds with zero fees, making
+                  transactions quick and cost-effective.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="operations__content operations__content--2">
+            <div class="operations__content-inner">
+              <svg viewBox="0 0 24 24" class="operations__icon">
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M3 12h18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <div class="operations__text">
+                <h5 class="operations__title">
+                  Get Loans Fast for Your Dreams
+                </h5>
+                <p>
+                  Access quick loan approvals with competitive rates to fund
+                  your personal or business goals.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="operations__content operations__content--3">
+            <div class="operations__content-inner">
+              <svg viewBox="0 0 24 24" class="operations__icon">
+                <path
+                  d="M3 6h18M3 12h18M3 18h18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9 6v12M15 6v12"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="2"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+              <div class="operations__text">
+                <h5 class="operations__title">Close Your Account Instantly</h5>
+                <p>
+                  Close your account hassle-free in just a few clicks when you
+                  no longer need it.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="operations__content operations__content--4">
+            <div class="operations__content-inner">
+              <svg viewBox="0 0 24 24" class="operations__icon">
+                <path
+                  d="M12 2a10 10 0 0 0-10 10c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 8v4l3 3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <div class="operations__text">
+                <h5 class="operations__title">Request Funds Instantly</h5>
+                <p>
+                  Easily request funds from friends or family in seconds, with a
+                  simple and secure process.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container">
+        <h2 class="section__title">What Our Customers Say</h2>
+        <div class="card-stack-container">
+          <div class="card-stack">
+            <div class="card card--1" data-card="0">
+              <div class="card__content">
+                <div class="card__header">
+                  <div class="card__avatar">
+                    <img src="img/user-1.jpg" alt="Aarav Lynn" loading="lazy" />
+                  </div>
+                  <div class="card__rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                  </div>
+                </div>
+                <h3 class="card__title">Best Financial Decision Ever!</h3>
+                <p class="card__text">
+                  Bankist has transformed my financial management. The intuitive
+                  interface and instant transfers make banking effortless, all
+                  from my phone!
+                </p>
+                <div class="card__footer">
+                  <div class="card__author">
+                    <h4 class="card__name">Aarav Lynn</h4>
+                    <p class="card__location">San Francisco, USA</p>
+                  </div>
+                  <div class="card__quote-icon">"</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card--2" data-card="1">
+              <div class="card__content">
+                <div class="card__header">
+                  <div class="card__avatar">
+                    <img
+                      src="img/user-2.jpg"
+                      alt="Miyah Miles"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="card__rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                  </div>
+                </div>
+                <h3 class="card__title">A Minimalist's Dream!</h3>
+                <p class="card__text">
+                  The clean design and seamless transactions make Bankist a joy
+                  to use. Dark mode is a game-changer for late-night budgeting!
+                </p>
+                <div class="card__footer">
+                  <div class="card__author">
+                    <h4 class="card__name">Miyah Miles</h4>
+                    <p class="card__location">London, UK</p>
+                  </div>
+                  <div class="card__quote-icon">"</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card--3" data-card="2">
+              <div class="card__content">
+                <div class="card__header">
+                  <div class="card__avatar">
+                    <img
+                      src="img/user-3.jpg"
+                      alt="Francisco Gomes"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="card__rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                  </div>
+                </div>
+                <h3 class="card__title">Goodbye Old-School Banks!</h3>
+                <p class="card__text">
+                  Switching to Bankist was a breath of fresh air. No hidden
+                  fees, no complicated processes—just modern banking done right.
+                </p>
+                <div class="card__footer">
+                  <div class="card__author">
+                    <h4 class="card__name">Francisco Gomes</h4>
+                    <p class="card__location">Lisbon, Portugal</p>
+                  </div>
+                  <div class="card__quote-icon">"</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-controls">
+            <button class="card-btn card-btn--prev" aria-label="Previous card">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <div class="card-indicators">
+              <button class="indicator active" data-card="0"></button>
+              <button class="indicator" data-card="1"></button>
+              <button class="indicator" data-card="2"></button>
+            </div>
+            <button class="card-btn card-btn--next" aria-label="Next card">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--signup">
+      <div class="container">
+        <h2 class="section__title">Join Bankist Today!</h2>
+        <a href="login.html" class="btn btn--primary"
+          >Open Your Free Account &rarr;</a
+        >
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <form id="newsletter-form" class="newsletter" novalidate>
+          <h3 class="newsletter__title">Stay in the loop</h3>
+          <p class="newsletter__subtitle">
+            Get product updates and smart money tips.
+          </p>
+          <div class="newsletter__controls">
+            <label for="newsletter-email" class="sr-only">Email address</label>
+            <input
+              id="newsletter-email"
+              class="newsletter__input"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+              aria-required="true"
+            />
+            <button type="submit" class="btn newsletter__btn">Subscribe</button>
+          </div>
+          <p class="newsletter__hint" aria-live="polite"></p>
+        </form>
+        <ul class="footer__nav">
+          <li><a href="#" class="footer__link">About</a></li>
+          <li><a href="#" class="footer__link">Pricing</a></li>
+          <li><a href="#" class="footer__link">Terms of Use</a></li>
+          <li><a href="#" class="footer__link">Privacy Policy</a></li>
+          <li><a href="#" class="footer__link">Careers</a></li>
+          <li><a href="#" class="footer__link">Blog</a></li>
+          <li><a href="#" class="footer__link">Contact Us</a></li>
+        </ul>
+        <img src="img/icon.png" alt="Bankist logo" class="footer__logo" />
+        <p class="footer__copyright">
+          &copy; 2025 Bankist. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      ↑
+    </button>
+  </body>
+</html>

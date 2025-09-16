@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="./img/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Bankist</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: inherit;
+      }
+
+      html {
+        font-size: 62.5%;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        color: #1f2a44;
+        background-color: #f8fafc;
+        min-height: 100vh;
+        padding: 2rem;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      body.dark-mode {
+        background-color: #0f172a;
+        color: #e2e8f0;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.2rem 2rem;
+        background-color: #ffffff;
+        border-radius: 0.8rem;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      body.dark-mode nav {
+        background-color: #1e293b;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav__left {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .dark-mode-btn {
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 50%;
+        color: #1f2a44;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .dark-mode-btn {
+        color: #e2e8f0;
+      }
+
+      .dark-mode-btn:hover {
+        background-color: #e5e7eb;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .dark-mode-btn:hover {
+        background-color: #334155;
+      }
+
+      .dark-mode-btn.animating svg {
+        transform: rotate(360deg);
+        opacity: 0.5;
+      }
+
+      .dark-mode-btn svg {
+        width: 2.2rem;
+        height: 2.2rem;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+
+      body.dark-mode .dark-mode-btn .sun,
+      body.dark-mode .dark-mode-btn .sun-ray {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      body:not(.dark-mode) .dark-mode-btn .moon {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      body.dark-mode .dark-mode-btn .moon {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      body:not(.dark-mode) .dark-mode-btn .sun,
+      body:not(.dark-mode) .dark-mode-btn .sun-ray {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .welcome {
+        font-size: 1.6rem;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      body.dark-mode .welcome {
+        color: #e2e8f0;
+      }
+
+      .logo {
+        height: 4rem;
+        transition: filter 0.3s ease;
+      }
+
+      body.dark-mode .logo {
+        filter: brightness(0) invert(1);
+      }
+
+      .auth-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logout__btn,
+      .reset__btn {
+        border: none;
+        font-size: 1.4rem;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 0.8rem 1.6rem;
+        border-radius: 0.6rem;
+        transition: all 0.3s;
+        font-weight: 500;
+        display: none;
+      }
+
+      .logout__btn {
+        background: #ef4444;
+      }
+
+      .reset__btn {
+        background: #3b82f6;
+      }
+
+      body.dark-mode .logout__btn {
+        background-color: #dc2626;
+      }
+
+      body.dark-mode .reset__btn {
+        background-color: #60a5fa;
+      }
+
+      .logout__btn:hover {
+        background-color: #dc2626;
+        transform: scale(1.05);
+      }
+
+      .reset__btn:hover {
+        background-color: #2563eb;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .logout__btn:hover {
+        background-color: #b91c1c;
+      }
+
+      body.dark-mode .reset__btn:hover {
+        background-color: #3b82f6;
+      }
+
+      .app {
+        position: relative;
+        max-width: 110rem;
+        margin: 3rem auto;
+        display: grid;
+        grid-template-columns: 4fr 3fr;
+        grid-template-rows: auto repeat(4, auto) auto;
+        gap: 2rem;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .app.active {
+        opacity: 1;
+      }
+
+      .balance {
+        grid-column: 1 / span 2;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 1.5rem;
+        background-color: #e5e7eb;
+        border-radius: 0.8rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      body.dark-mode .balance {
+        background-color: #2d3748;
+      }
+
+      .balance__label {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      body.dark-mode .balance__label {
+        color: #e2e8f0;
+      }
+
+      .balance__date {
+        font-size: 1.3rem;
+        color: #6b7280;
+      }
+
+      body.dark-mode .balance__date {
+        color: #9ca3af;
+      }
+
+      .balance__value {
+        font-size: 4rem;
+        font-weight: 500;
+        color: #1f2a44;
+      }
+
+      body.dark-mode .balance__value {
+        color: #e2e8f0;
+      }
+
+      .movements {
+        max-height: 60rem;
+        box-sizing: border-box;
+        padding: 10px;
+        grid-row: 2 / span 3;
+        background-color: #ffffff;
+        border-radius: 0.8rem;
+        overflow-y: auto;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      body.dark-mode .movements {
+        background-color: #1e293b;
+      }
+
+      .movements__filter {
+        position: sticky;
+        top: 0;
+        background-color: inherit;
+        z-index: 10;
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .movements__filter label {
+        font-size: 1.4rem;
+        font-weight: 400;
+      }
+
+      body.dark-mode .movements__filter label {
+        color: #e2e8f0;
+      }
+
+      .movements__filter select {
+        padding: 0.6rem 1rem;
+        font-size: 1.4rem;
+        border-radius: 0.6rem;
+        border: 1px solid #d1d5db;
+        background-color: #ffffff;
+        color: #1f2a44;
+        cursor: pointer;
+      }
+
+      body.dark-mode .movements__filter select {
+        background-color: #374151;
+        color: #e2e8f0;
+        border-color: #4b5563;
+      }
+
+      .movements__row {
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e5e7eb;
+        transition: background-color 0.2s;
+      }
+
+      body.dark-mode .movements__row {
+        border-bottom-color: #4b5563;
+      }
+
+      .movements__row:hover {
+        background-color: #f1f5f9;
+      }
+
+      body.dark-mode .movements__row:hover {
+        background-color: #2d3748;
+      }
+
+      .movements__empty {
+        padding: 2rem;
+        text-align: center;
+        font-size: 1.6rem;
+        color: #6b7280;
+      }
+
+      body.dark-mode .movements__empty {
+        color: #9ca3af;
+      }
+
+      .movements__type {
+        font-size: 1rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #ffffff;
+        padding: 0.4rem 1rem;
+        border-radius: 1.5rem;
+        margin-right: 1.5rem;
+      }
+
+      .movements__type--deposit {
+        background-color: #10b981;
+      }
+
+      .movements__type--withdrawal {
+        background-color: #ef4444;
+      }
+
+      .movements__type--request {
+        background-color: #8b5cf6;
+      }
+
+      .movements__date {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #6b7280;
+      }
+
+      body.dark-mode .movements__date {
+        color: #9ca3af;
+      }
+
+      .movements__value {
+        font-size: 1.6rem;
+        margin-left: auto;
+      }
+
+      body.dark-mode .movements__value {
+        color: #e2e8f0;
+      }
+
+      .movements__actions {
+        display: flex;
+        gap: 0.8rem;
+        margin-left: 1rem;
+      }
+
+      .btn--action {
+        border: none;
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #ffffff;
+        border-radius: 0.6rem;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn--action.accept {
+        background-color: #10b981;
+      }
+
+      .btn--action.deny {
+        background-color: #ef4444;
+      }
+
+      .btn--action:hover {
+        transform: scale(1.05);
+      }
+
+      .btn--action.accept:hover {
+        background-color: #059669;
+      }
+
+      .btn--action.deny:hover {
+        background-color: #dc2626;
+      }
+
+      .summary {
+        grid-row: 6 / 7;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2rem 2.5rem;
+        margin-top: 1.5rem;
+        background-color: #f1f5f9;
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      body.dark-mode .summary {
+        background-color: #2d3748;
+      }
+
+      .summary__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .summary__label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #1f2a44;
+      }
+
+      body.dark-mode .summary__label {
+        color: #e2e8f0;
+      }
+
+      .summary__value {
+        font-size: 2.2rem;
+        font-weight: 500;
+      }
+
+      .summary__value--in,
+      .summary__value--interest {
+        color: #10b981;
+      }
+
+      .summary__value--out {
+        color: #ef4444;
+      }
+
+      .btn--sort {
+        margin-left: 2rem;
+        border: 1px solid #3b82f6;
+        background: #3b82f6;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 0.8rem 1.5rem;
+        border-radius: 0.8rem;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .btn--sort {
+        background-color: #60a5fa;
+        color: #e2e8f0;
+      }
+
+      .btn--sort:hover {
+        background-color: #2563eb;
+      }
+
+      body.dark-mode .btn--sort:hover {
+        background-color: #3b82f6;
+      }
+
+      .operation__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .operation {
+        border-radius: 1.2rem;
+        padding: 2.5rem 3rem;
+        background-color: #ffffff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .operation::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .operation:hover::before {
+        transform: scaleX(1);
+      }
+
+      body.dark-mode .operation {
+        background-color: #1e293b;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .operation:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+
+      body.dark-mode .operation:hover {
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      }
+
+      .operation--transfer {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .operation--loan {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+      }
+
+      .operation--request {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+      }
+
+      .operation--close {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        color: white;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #1f2a44;
+      }
+
+      body.dark-mode h2 {
+        color: #e2e8f0;
+      }
+
+      .form {
+        display: grid;
+        grid-template-columns: 2.5fr 2.5fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 0.5rem 1rem;
+      }
+
+      .form.form--loan {
+        grid-template-columns: 2.5fr 1fr 2.5fr;
+      }
+
+      .form__label--loan {
+        grid-row: 2;
+      }
+
+      .form__input {
+        width: 100%;
+        border: 1px solid #d1d5db;
+        background-color: #ffffff;
+        font-family: inherit;
+        font-size: 1.5rem;
+        text-align: center;
+        color: #1f2a44;
+        padding: 0.8rem 1rem;
+        border-radius: 0.6rem;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .form__input {
+        background-color: #374151;
+        color: #e2e8f0;
+        border-color: #4b5563;
+      }
+
+      .form__input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+      }
+
+      body.dark-mode .form__input:focus {
+        border-color: #60a5fa;
+      }
+
+      .form__input.error {
+        border-color: #ef4444;
+        box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+      }
+
+      .form__label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0.8rem;
+        text-align: left;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .form__btn {
+        border-radius: 1rem;
+        padding: 1rem 2rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        min-width: fit-content;
+        white-space: nowrap;
+      }
+
+      .form__btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .form__btn:hover::before {
+        left: 100%;
+      }
+
+      .form__btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .form__btn:active {
+        transform: translateY(0);
+      }
+
+      .form__btn svg {
+        width: 1.8rem;
+        height: 1.8rem;
+        transition: transform 0.3s ease;
+      }
+
+      .form__btn:hover svg {
+        transform: scale(1.1);
+      }
+
+      .form__btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+      }
+
+      .form__btn.loading {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .form__btn.loading::after {
+        content: '';
+        position: absolute;
+        width: 1.6rem;
+        height: 1.6rem;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .form__input.success {
+        border-color: #10b981;
+        background-color: rgba(16, 185, 129, 0.1);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+      }
+
+      .form__input.error {
+        animation: shake 0.5s ease-in-out;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      .form__input::placeholder {
+        transition: opacity 0.3s ease;
+      }
+
+      .form__input:focus::placeholder {
+        opacity: 0.5;
+      }
+
+      .logout-timer {
+        padding: 0 1rem;
+        margin-top: 2rem;
+        text-align: right;
+        font-size: 1.3rem;
+        color: #1f2a44;
+      }
+
+      body.dark-mode .logout-timer {
+        color: #e2e8f0;
+      }
+
+      .timer {
+        font-weight: 600;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        padding: 1rem 2rem;
+        border-radius: 0.6rem;
+        color: #ffffff;
+        font-size: 1.4rem;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        min-width: 20rem;
+        text-align: center;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .toast.success {
+        background-color: #10b981;
+      }
+
+      .toast.error {
+        background-color: #ef4444;
+      }
+
+      .toast:nth-child(2) {
+        bottom: 6rem;
+      }
+
+      .toast:nth-child(3) {
+        bottom: 10rem;
+      }
+
+      @media (max-width: 768px) {
+        .app {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto repeat(5, auto);
+          gap: 1.5rem;
+          margin: 2rem 1rem;
+        }
+
+        .balance {
+          grid-column: 1 / 1;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 1.5rem;
+        }
+
+        .balance__value {
+          font-size: 3.5rem;
+        }
+
+        .movements {
+          grid-row: 2 / 3;
+        }
+
+        nav {
+          flex-wrap: wrap;
+          gap: 1rem;
+          padding: 1rem 1.5rem;
+        }
+
+        .nav__left {
+          flex: 1;
+          gap: 0.8rem;
+        }
+
+        .auth-container {
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 0.8rem;
+        }
+
+        .logout__btn,
+        .reset__btn {
+          padding: 0.6rem 1.2rem;
+          font-size: 1.3rem;
+        }
+
+        .logo {
+          height: 3.5rem;
+          order: -1;
+        }
+
+        .welcome {
+          font-size: 1.5rem;
+        }
+
+        .summary {
+          flex-direction: column;
+          align-items: center;
+          gap: 1.5rem;
+          padding: 1.5rem;
+        }
+
+        .summary__item {
+          flex-direction: row;
+          gap: 1rem;
+        }
+
+        .btn--sort {
+          margin-left: 0;
+          margin-top: 1rem;
+          width: 100%;
+          text-align: center;
+        }
+
+        .operation {
+          grid-row: auto;
+          padding: 2rem;
+        }
+
+        .operation__header {
+          margin-bottom: 2rem;
+        }
+
+        .form__input {
+          font-size: 1.4rem;
+          padding: 1rem;
+        }
+
+        .form__btn {
+          padding: 0.8rem 1.5rem;
+          font-size: 1.4rem;
+          min-width: fit-content;
+          white-space: nowrap;
+        }
+
+        .form__btn svg {
+          width: 1.6rem;
+          height: 1.6rem;
+        }
+
+        .movements__row {
+          padding: 1rem 1.5rem;
+        }
+
+        .movements__type {
+          font-size: 0.9rem;
+          padding: 0.3rem 0.8rem;
+          margin-right: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOP NAVIGATION -->
+    <nav>
+      <div class="nav__left">
+        <button id="dark-mode-toggle" class="dark-mode-btn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle class="sun" cx="12" cy="12" r="5" />
+            <line class="sun-ray" x1="12" y1="1" x2="12" y2="3" />
+            <line class="sun-ray" x1="12" y1="21" x2="12" y2="23" />
+            <line class="sun-ray" x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line class="sun-ray" x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line class="sun-ray" x1="1" y1="12" x2="3" y2="12" />
+            <line class="sun-ray" x1="21" y1="12" x2="23" y2="12" />
+            <line class="sun-ray" x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line class="sun-ray" x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            <path
+              class="moon"
+              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+            />
+          </svg>
+        </button>
+        <p class="welcome" id="label-welcome">Loading...</p>
+      </div>
+      <img src="./img/logo.png" alt="Logo" class="logo" />
+      <div class="auth-container">
+        <button id="btn-reset" class="reset__btn">Reset Accounts</button>
+        <button id="btn-logout" class="logout__btn">Logout</button>
+      </div>
+    </nav>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
+
+    <main class="app" id="container-app">
+      <!-- BALANCE -->
+      <div class="balance">
+        <div>
+          <p class="balance__label">Current balance</p>
+          <p class="balance__date" id="label-date">
+            As of <span class="date">05/03/2037</span>
+          </p>
+        </div>
+        <p class="balance__value" id="label-balance">0.00€</p>
+      </div>
+
+      <!-- MOVEMENTS -->
+      <div class="movements" id="container-movements">
+        <div class="movements__filter">
+          <label for="filter-type">Filter transactions:</label>
+          <select id="filter-type">
+            <option value="all">All</option>
+            <option value="deposit">Deposits</option>
+            <option value="withdrawal">Withdrawals</option>
+            <option value="request">Requests</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary">
+        <div class="summary__item">
+          <p class="summary__label">In</p>
+          <p class="summary__value summary__value--in" id="label-sum-in">
+            0.00€
+          </p>
+        </div>
+        <div class="summary__item">
+          <p class="summary__label">Out</p>
+          <p class="summary__value summary__value--out" id="label-sum-out">
+            0.00€
+          </p>
+        </div>
+        <div class="summary__item">
+          <p class="summary__label">Interest</p>
+          <p
+            class="summary__value summary__value--interest"
+            id="label-sum-interest"
+          >
+            0.00€
+          </p>
+        </div>
+        <button class="btn--sort" id="btn-sort">&downarrow; SORT</button>
+      </div>
+
+      <!-- OPERATION: TRANSFERS -->
+      <div class="operation operation--transfer">
+        <div class="operation__header">
+          <h2>Transfer money</h2>
+        </div>
+        <form class="form form--transfer" id="form-transfer">
+          <input
+            type="text"
+            class="form__input form__input--to"
+            id="input-transfer-to"
+          />
+          <input
+            type="number"
+            class="form__input form__input--amount"
+            id="input-transfer-amount"
+          />
+          <button class="form__btn form__btn--transfer" id="btn-transfer">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
+            </svg>
+            Transfer
+          </button>
+          <label class="form__label">Transfer to</label>
+          <label class="form__label">Amount</label>
+        </form>
+      </div>
+
+      <!-- OPERATION: LOAN -->
+      <div class="operation operation--loan">
+        <div class="operation__header">
+          <h2>Request loan</h2>
+        </div>
+        <form class="form form--loan" id="form-loan">
+          <input
+            type="number"
+            class="form__input form__input--loan-amount"
+            id="input-loan-amount"
+          />
+          <button class="form__btn form__btn--loan" id="btn-loan">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8"
+              />
+            </svg>
+            Request
+          </button>
+          <label class="form__label form__label--loan">Amount</label>
+        </form>
+      </div>
+
+      <!-- OPERATION: REQUEST -->
+      <div class="operation operation--request">
+        <div class="operation__header">
+          <h2>Request money</h2>
+        </div>
+        <form class="form form--request" id="form-request">
+          <input
+            type="text"
+            class="form__input form__input--to"
+            id="input-request-to"
+          />
+          <input
+            type="number"
+            class="form__input form__input--amount"
+            id="input-request-amount"
+          />
+          <button class="form__btn form__btn--request" id="btn-request">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"
+              />
+            </svg>
+            Request
+          </button>
+          <label class="form__label">Request from</label>
+          <label class="form__label">Amount</label>
+        </form>
+      </div>
+
+      <!-- OPERATION: CLOSE -->
+      <div class="operation operation--close">
+        <div class="operation__header">
+          <h2>Close account</h2>
+        </div>
+        <form class="form form--close" id="form-close">
+          <input
+            type="text"
+            class="form__input form__input--user"
+            id="input-close-user"
+          />
+          <input
+            type="password"
+            class="form__input form__input--pin"
+            id="input-close-pin"
+          />
+          <button class="form__btn form__btn--close" id="btn-close">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+            Delete
+          </button>
+          <label class="form__label">Username</label>
+          <label class="form__label">PIN</label>
+        </form>
+      </div>
+
+      <!-- LOGOUT TIMER -->
+      <p class="logout-timer">
+        You will be logged out in
+        <span class="timer" id="label-timer">05:00</span>
+      </p>
+    </main>
+
+    <script>
+      'use strict';
+
+      // Load accounts from localStorage
+      const loadAccounts = () => {
+        const data = localStorage.getItem('bankistAccounts');
+        if (data) {
+          return JSON.parse(data);
+        }
+        // Default accounts if localStorage is empty
+        return [
+          {
+            username: 'jonas',
+            owner: 'Jonas Schmedtmann',
+            movements: [
+              200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300,
+            ],
+            interestRate: 1.2,
+            pin: 1111,
+            movementsDates: [
+              '2024-08-18T21:31:17.178Z',
+              '2025-06-23T07:42:02.383Z',
+              '2025-01-28T09:15:04.904Z',
+              '2025-04-01T10:17:24.185Z',
+              '2025-05-08T14:11:59.604Z',
+              '2025-05-27T17:01:17.194Z',
+              '2025-07-11T23:36:17.929Z',
+              '2025-08-30T10:51:36.790Z',
+            ],
+            currency: 'EUR',
+            locale: 'pt-PT',
+            pendingRequests: [],
+          },
+          {
+            username: 'jessica',
+            owner: 'Jessica Davis',
+            movements: [
+              5000, 3400, -150, -790, -3210, -1000, 8500, -30, 200, 100, 400,
+            ],
+            interestRate: 1.5,
+            pin: 2222,
+            movementsDates: [
+              '2025-08-01T13:15:33.035Z',
+              '2025-05-30T09:48:16.867Z',
+              '2025-06-25T06:04:23.907Z',
+              '2025-01-25T14:18:46.235Z',
+              '2025-02-05T16:33:06.386Z',
+              '2025-04-10T14:43:26.374Z',
+              '2025-06-25T18:49:59.371Z',
+              '2025-07-24T12:01:20.894Z',
+              '2025-07-20T12:01:20.894Z',
+              '2025-07-21T12:01:20.894Z',
+              '2025-07-25T12:01:20.894Z',
+            ],
+            currency: 'USD',
+            locale: 'en-US',
+            pendingRequests: [],
+          },
+          {
+            username: 'abdelrahman',
+            owner: 'Abdelrahman Ahmed',
+            movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+            interestRate: 1.5,
+            pin: 3333,
+            movementsDates: [
+              '2025-01-01T13:15:33.035Z',
+              '2025-03-30T09:48:16.867Z',
+              '2025-04-25T06:04:23.907Z',
+              '2025-01-25T14:18:46.235Z',
+              '2025-02-05T16:33:06.386Z',
+              '2025-04-10T14:43:26.374Z',
+              '2025-06-25T18:49:59.371Z',
+              '2025-07-26T12:01:20.894Z',
+            ],
+            currency: 'EGP',
+            locale: 'en-US',
+            pendingRequests: [],
+          },
+          {
+            username: 'Ahmed',
+            owner: 'Ahmed Ezzat',
+            movements: [
+              5000, 3400, -150, -790, -3210, -1000, 8500, -30, 1000, -500,
+            ],
+            interestRate: 1.5,
+            pin: 4444,
+            movementsDates: [
+              '2025-07-01T13:15:33.035Z',
+              '2025-03-30T09:48:16.867Z',
+              '2025-04-25T06:04:23.907Z',
+              '2025-01-25T14:18:46.235Z',
+              '2025-02-05T16:33:06.386Z',
+              '2025-04-10T14:43:26.374Z',
+              '2025-06-25T18:49:59.371Z',
+              '2025-07-26T12:01:20.894Z',
+              '2025-08-01T10:00:00Z',
+              '2025-08-31T10:00:00Z',
+            ],
+            currency: 'EGP',
+            locale: 'en-US',
+            pendingRequests: [],
+          },
+        ];
+      };
+
+      // Save accounts to localStorage
+      const saveAccounts = accs => {
+        localStorage.setItem('bankistAccounts', JSON.stringify(accs));
+      };
+
+      let accounts = loadAccounts();
+
+      // Elements
+      const labelWelcome = document.querySelector('#label-welcome');
+      const labelDate = document.querySelector('#label-date');
+      const labelBalance = document.querySelector('#label-balance');
+      const labelSumIn = document.querySelector('#label-sum-in');
+      const labelSumOut = document.querySelector('#label-sum-out');
+      const labelSumInterest = document.querySelector('#label-sum-interest');
+      const labelTimer = document.querySelector('#label-timer');
+      const containerApp = document.querySelector('#container-app');
+      const containerMovements = document.querySelector('#container-movements');
+      const btnLogout = document.querySelector('#btn-logout');
+      const btnReset = document.querySelector('#btn-reset');
+      const btnTransfer = document.querySelector('#btn-transfer');
+      const btnLoan = document.querySelector('#btn-loan');
+      const btnRequest = document.querySelector('#btn-request');
+      const btnClose = document.querySelector('#btn-close');
+      const btnSort = document.querySelector('#btn-sort');
+      const inputTransferTo = document.querySelector('#input-transfer-to');
+      const inputTransferAmount = document.querySelector(
+        '#input-transfer-amount'
+      );
+      const inputLoanAmount = document.querySelector('#input-loan-amount');
+      const inputRequestTo = document.querySelector('#input-request-to');
+      const inputRequestAmount = document.querySelector(
+        '#input-request-amount'
+      );
+      const inputCloseUser = document.querySelector('#input-close-user');
+      const inputClosePin = document.querySelector('#input-close-pin');
+      const filterType = document.querySelector('#filter-type');
+
+      // Global Variables
+      let currentAccount, timer;
+      let sorted = false;
+      let currentFilter = 'all';
+
+      // Utility Functions
+      const showToast = (message, type = 'success') => {
+        const toast = document.querySelector('#toast');
+        toast.textContent = message;
+        toast.className = `toast show ${type}`;
+        setTimeout(() => {
+          toast.className = 'toast';
+        }, 3000);
+      };
+
+      const formatMovementDate = (date, locale) => {
+        const calcDaysPassed = (date1, date2) =>
+          Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+        const daysPassed = calcDaysPassed(new Date(), date);
+        if (daysPassed === 0) return 'Today';
+        if (daysPassed === 1) return 'Yesterday';
+        if (daysPassed <= 7) return `${daysPassed} days ago`;
+        return new Intl.DateTimeFormat(locale).format(date);
+      };
+
+      const formatCur = (value, locale, currency) =>
+        new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency,
+        }).format(value);
+
+      const applyFilter = () => {
+        const rows = containerMovements.querySelectorAll('.movements__row');
+        if (rows.length === 0) {
+          containerMovements.insertAdjacentHTML(
+            'beforeend',
+            '<div class="movements__empty">No transactions to display</div>'
+          );
+        } else {
+          const emptyMessage =
+            containerMovements.querySelector('.movements__empty');
+          if (emptyMessage) emptyMessage.remove();
+          rows.forEach(row => {
+            const type = row
+              .querySelector('.movements__type')
+              .classList.contains(`movements__type--${currentFilter}`)
+              ? currentFilter
+              : 'none';
+            row.style.display =
+              currentFilter === 'all' || type === currentFilter
+                ? 'flex'
+                : 'none';
+          });
+        }
+      };
+
+      const displayMovements = (account, sort = false) => {
+        containerMovements.innerHTML = `
+          <div class="movements__filter">
+            <label for="filter-type">Filter transactions:</label>
+            <select id="filter-type">
+              <option value="all">All</option>
+              <option value="deposit">Deposits</option>
+              <option value="withdrawal">Withdrawals</option>
+              <option value="request">Requests</option>
+            </select>
+          </div>
+        `;
+
+        const filterType = document.querySelector('#filter-type');
+        filterType.value = currentFilter;
+
+        // Combine movements and pending requests for display
+        const movementsWithType = [];
+
+        // Add regular movements (deposits and withdrawals)
+        account.movements.forEach((mov, i) => {
+          const type = mov > 0 ? 'deposit' : 'withdrawal';
+          movementsWithType.push({
+            type,
+            amount: mov,
+            date: new Date(account.movementsDates[i]),
+            index: i,
+            isRequest: false,
+          });
+        });
+
+        // Add pending requests
+        account.pendingRequests.forEach((req, i) => {
+          const isRequester = req.requester === account.username;
+          movementsWithType.push({
+            type: 'request',
+            amount: req.amount,
+            date: new Date(req.date),
+            index: i,
+            isRequest: true,
+            isRequester,
+            requester: req.requester,
+          });
+        });
+
+        // Sort by date (newest first) or by amount if sort is true
+        const sortedMovements = sort
+          ? movementsWithType.sort((a, b) => a.amount - b.amount)
+          : movementsWithType.sort((a, b) => b.date - a.date); // Newest first
+
+        if (sortedMovements.length === 0) {
+          containerMovements.insertAdjacentHTML(
+            'beforeend',
+            '<div class="movements__empty">No transactions to display</div>'
+          );
+        } else {
+          sortedMovements.forEach((mov, i) => {
+            const displayDate = formatMovementDate(mov.date, account.locale);
+            const formattedMov = formatCur(
+              mov.amount,
+              account.locale,
+              account.currency
+            );
+            const displayText =
+              mov.isRequest && mov.isRequester
+                ? `Pending Request to ${mov.requester}`
+                : `${i + 1} ${mov.type}`;
+
+            const html = `
+              <div class="movements__row">
+                <div class="movements__type movements__type--${mov.type}">
+                  ${displayText}
+                </div>
+                <div class="movements__date">${displayDate}</div>
+                <div class="movements__value">${
+                  mov.isRequest && mov.isRequester ? 'Pending' : formattedMov
+                }</div>
+                ${
+                  mov.isRequest && !mov.isRequester
+                    ? `
+                  <div class="movements__actions">
+                    <button class="btn--action accept" data-index="${mov.index}">Accept</button>
+                    <button class="btn--action deny" data-index="${mov.index}">Deny</button>
+                  </div>
+                `
+                    : ''
+                }
+              </div>
+            `;
+
+            containerMovements.insertAdjacentHTML('beforeend', html);
+          });
+        }
+
+        applyFilter();
+      };
+
+      const calcDisplayBalance = account => {
+        account.balance = account.movements.reduce((acc, mov) => acc + mov, 0);
+        labelBalance.textContent = formatCur(
+          account.balance,
+          account.locale,
+          account.currency
+        );
+      };
+
+      const calcDisplaySummary = account => {
+        const incomes = account.movements
+          .filter(mov => mov > 0)
+          .reduce((acc, mov) => acc + mov, 0);
+        labelSumIn.textContent = formatCur(
+          incomes,
+          account.locale,
+          account.currency
+        );
+
+        const outcomes = account.movements
+          .filter(mov => mov < 0)
+          .reduce((acc, mov) => acc + mov, 0);
+        labelSumOut.textContent = formatCur(
+          Math.abs(outcomes),
+          account.locale,
+          account.currency
+        );
+
+        const interest = account.movements
+          .filter(mov => mov > 0)
+          .map(deposit => (deposit * account.interestRate) / 100)
+          .filter(int => int >= 1)
+          .reduce((acc, int) => acc + int, 0);
+        labelSumInterest.textContent = formatCur(
+          interest,
+          account.locale,
+          account.currency
+        );
+      };
+
+      const updateUI = account => {
+        displayMovements(account, sorted);
+        calcDisplayBalance(account);
+        calcDisplaySummary(account);
+      };
+
+      const startLogOutTimer = () => {
+        let timeLeft = 300;
+        const tick = () => {
+          const min = String(Math.trunc(timeLeft / 60)).padStart(2, '0');
+          const sec = String(timeLeft % 60).padStart(2, '0');
+          labelTimer.textContent = `${min}:${sec}`;
+          if (timeLeft === 0) {
+            clearInterval(timer);
+            sessionStorage.removeItem('authenticatedUser');
+            labelWelcome.textContent = 'Log in to get started';
+            containerApp.classList.remove('active');
+            btnLogout.style.display = 'none';
+            btnReset.style.display = 'none';
+            labelTimer.textContent = '';
+            showToast('Session timed out', 'error');
+            window.location.href = 'login.html';
+          }
+          timeLeft--;
+        };
+        tick();
+        const timer = setInterval(tick, 1000);
+        return timer;
+      };
+
+      const resetTimer = () => {
+        if (timer) clearInterval(timer);
+        timer = startLogOutTimer();
+      };
+
+      // Reset accounts to default
+      const resetAccounts = () => {
+        localStorage.removeItem('bankistAccounts');
+        accounts = loadAccounts();
+        saveAccounts(accounts);
+        const username = sessionStorage.getItem('authenticatedUser');
+        currentAccount = accounts.find(acc => acc.username === username);
+        if (currentAccount) {
+          updateUI(currentAccount);
+          showToast('Accounts reset to default!', 'success');
+          resetTimer();
+        } else {
+          showToast(
+            'No authenticated user found. Please log in again.',
+            'error'
+          );
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1000);
+        }
+      };
+
+      // Initialize App
+      const initializeApp = () => {
+        const username = sessionStorage.getItem('authenticatedUser');
+        if (!username) {
+          showToast('No authenticated user found. Please log in.', 'error');
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1000);
+          return;
+        }
+
+        currentAccount = accounts.find(acc => acc.username === username);
+        if (!currentAccount) {
+          showToast('User not found. Please log in again.', 'error');
+          sessionStorage.removeItem('authenticatedUser');
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1000);
+          return;
+        }
+
+        labelWelcome.textContent = `Welcome back, ${
+          currentAccount.owner.split(' ')[0]
+        }`;
+        containerApp.classList.add('active');
+        btnLogout.style.display = 'block';
+        btnReset.style.display = 'block';
+        labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        }).format(new Date());
+
+        if (timer) clearInterval(timer);
+        timer = startLogOutTimer();
+        updateUI(currentAccount);
+        showToast('Welcome to Bankist');
+      };
+
+      // Event Handlers
+      btnTransfer.addEventListener('click', e => {
+        e.preventDefault();
+        const amount = Number(inputTransferAmount.value);
+        const receiverAcc = accounts.find(
+          acc => acc.username === inputTransferTo.value
+        );
+
+        inputTransferAmount.value = inputTransferTo.value = '';
+
+        if (
+          amount > 0 &&
+          receiverAcc &&
+          currentAccount.balance >= amount &&
+          receiverAcc?.username !== currentAccount.username
+        ) {
+          currentAccount.movements.push(-amount);
+          receiverAcc.movements.push(amount);
+          currentAccount.movementsDates.push(new Date().toISOString());
+          receiverAcc.movementsDates.push(new Date().toISOString());
+          saveAccounts(accounts);
+          updateUI(currentAccount);
+          showToast('Transfer successful!', 'success');
+          resetTimer();
+        } else {
+          showToast('Invalid transfer details.', 'error');
+          inputTransferAmount.classList.add('error');
+          inputTransferTo.classList.add('error');
+          setTimeout(() => {
+            inputTransferAmount.classList.remove('error');
+            inputTransferTo.classList.remove('error');
+          }, 3000);
+        }
+      });
+
+      btnLoan.addEventListener('click', e => {
+        e.preventDefault();
+        const amount = Math.floor(Number(inputLoanAmount.value));
+        if (
+          amount > 0 &&
+          currentAccount.movements.some(mov => mov >= amount * 0.1)
+        ) {
+          setTimeout(() => {
+            currentAccount.movements.push(amount);
+            currentAccount.movementsDates.push(new Date().toISOString());
+            saveAccounts(accounts);
+            updateUI(currentAccount);
+            showToast('Loan approved!', 'success');
+            resetTimer();
+          }, 2500);
+        } else {
+          showToast('Loan request denied.', 'error');
+          inputLoanAmount.classList.add('error');
+          setTimeout(() => {
+            inputLoanAmount.classList.remove('error');
+          }, 3000);
+        }
+        inputLoanAmount.value = '';
+      });
+
+      btnRequest.addEventListener('click', e => {
+        e.preventDefault();
+        const amount = Number(inputRequestAmount.value);
+        const receiverAcc = accounts.find(
+          acc => acc.username === inputRequestTo.value
+        );
+        const requestDate = new Date().toISOString();
+
+        if (
+          amount > 0 &&
+          receiverAcc &&
+          receiverAcc?.username !== currentAccount.username
+        ) {
+          // Check for duplicate request
+          const isDuplicate = currentAccount.pendingRequests.some(
+            req =>
+              req.amount === amount &&
+              req.requester === currentAccount.username &&
+              req.date === requestDate
+          );
+          if (isDuplicate) {
+            showToast('Duplicate request detected.', 'error');
+            return;
+          }
+
+          receiverAcc.pendingRequests.push({
+            amount,
+            requester: currentAccount.username,
+            date: requestDate,
+          });
+          currentAccount.pendingRequests.push({
+            amount,
+            requester: currentAccount.username,
+            date: requestDate,
+          });
+          saveAccounts(accounts);
+          updateUI(currentAccount);
+          showToast('Money request sent!', 'success');
+          resetTimer();
+        } else {
+          showToast('Invalid request details.', 'error');
+          inputRequestAmount.classList.add('error');
+          inputRequestTo.classList.add('error');
+          setTimeout(() => {
+            inputRequestAmount.classList.remove('error');
+            inputRequestTo.classList.remove('error');
+          }, 3000);
+        }
+        inputRequestAmount.value = inputRequestTo.value = '';
+      });
+
+      containerMovements.addEventListener('click', e => {
+        const btn = e.target.closest('.btn--action');
+        if (!btn) return;
+        const index = Number(btn.dataset.index);
+        if (index < 0 || index >= currentAccount.pendingRequests.length) {
+          showToast('Invalid request index.', 'error');
+          return;
+        }
+        const request = currentAccount.pendingRequests[index];
+
+        if (btn.classList.contains('accept')) {
+          if (currentAccount.balance >= request.amount) {
+            currentAccount.movements.push(-request.amount);
+            const requesterAcc = accounts.find(
+              acc => acc.username === request.requester
+            );
+            if (requesterAcc) {
+              requesterAcc.movements.push(request.amount);
+              requesterAcc.movementsDates.push(new Date().toISOString());
+              // Remove the request from requester's pendingRequests
+              const requesterRequestIndex =
+                requesterAcc.pendingRequests.findIndex(
+                  req =>
+                    req.requester === request.requester &&
+                    req.amount === request.amount &&
+                    req.date === request.date
+                );
+              if (requesterRequestIndex !== -1) {
+                requesterAcc.pendingRequests.splice(requesterRequestIndex, 1);
+              }
+            }
+            currentAccount.movementsDates.push(new Date().toISOString());
+            currentAccount.pendingRequests.splice(index, 1);
+            saveAccounts(accounts);
+            updateUI(currentAccount);
+            showToast('Request accepted!', 'success');
+            resetTimer();
+          } else {
+            showToast('Insufficient balance to accept request.', 'error');
+          }
+        } else if (btn.classList.contains('deny')) {
+          const requesterAcc = accounts.find(
+            acc => acc.username === request.requester
+          );
+          if (requesterAcc) {
+            const requesterRequestIndex =
+              requesterAcc.pendingRequests.findIndex(
+                req =>
+                  req.requester === request.requester &&
+                  req.amount === request.amount &&
+                  req.date === request.date
+              );
+            if (requesterRequestIndex !== -1) {
+              requesterAcc.pendingRequests.splice(requesterRequestIndex, 1);
+            }
+          }
+          currentAccount.pendingRequests.splice(index, 1);
+          saveAccounts(accounts);
+          updateUI(currentAccount);
+          showToast('Request denied.', 'error');
+          resetTimer();
+        }
+      });
+
+      btnClose.addEventListener('click', e => {
+        e.preventDefault();
+        if (
+          inputCloseUser.value === currentAccount.username &&
+          Number(inputClosePin.value) === currentAccount.pin
+        ) {
+          const index = accounts.findIndex(
+            acc => acc.username === currentAccount.username
+          );
+          accounts.splice(index, 1);
+          saveAccounts(accounts);
+          sessionStorage.removeItem('authenticatedUser');
+          containerApp.classList.remove('active');
+          btnLogout.style.display = 'none';
+          btnReset.style.display = 'none';
+          labelTimer.textContent = '';
+          showToast('Account closed successfully.', 'success');
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1000);
+        } else {
+          showToast('Invalid credentials.', 'error');
+          inputCloseUser.classList.add('error');
+          inputClosePin.classList.add('error');
+          setTimeout(() => {
+            inputCloseUser.classList.remove('error');
+            inputClosePin.classList.remove('error');
+          }, 3000);
+        }
+        inputCloseUser.value = inputClosePin.value = '';
+      });
+
+      btnSort.addEventListener('click', e => {
+        e.preventDefault();
+        sorted = !sorted;
+        displayMovements(currentAccount, sorted);
+        btnSort.textContent = sorted ? '↑ UNSORT' : '↓ SORT';
+        resetTimer();
+      });
+
+      btnLogout.addEventListener('click', e => {
+        e.preventDefault();
+        sessionStorage.removeItem('authenticatedUser');
+        labelWelcome.textContent = 'Log in to get started';
+        containerApp.classList.remove('active');
+        btnLogout.style.display = 'none';
+        btnReset.style.display = 'none';
+        labelTimer.textContent = '';
+        if (timer) clearInterval(timer);
+        showToast('Logged out successfully');
+        window.location.href = 'login.html';
+      });
+
+      btnReset.addEventListener('click', e => {
+        e.preventDefault();
+        resetAccounts();
+      });
+
+      document
+        .querySelector('#dark-mode-toggle')
+        .addEventListener('click', () => {
+          const darkModeBtn = document.querySelector('#dark-mode-toggle');
+          darkModeBtn.classList.add('animating');
+          setTimeout(() => darkModeBtn.classList.remove('animating'), 500);
+          document.body.classList.toggle('dark-mode');
+          localStorage.setItem(
+            'darkMode',
+            document.body.classList.contains('dark-mode') ? 'true' : 'false'
+          );
+          showToast(
+            `Switched to ${
+              document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+            } mode`
+          );
+          resetTimer();
+        });
+
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+
+      // Filter event listener (outside displayMovements to prevent duplicates)
+      document.addEventListener('change', e => {
+        if (e.target.id === 'filter-type') {
+          currentFilter = e.target.value;
+          applyFilter();
+          resetTimer();
+        }
+      });
+
+      document.addEventListener('click', resetTimer);
+      document.addEventListener('keypress', resetTimer);
+
+      // Initialize
+      initializeApp();
+    </script>
+  </body>
+</html>

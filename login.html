@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="img/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Bankist - Secure Login</title>
+    <style>
+      /* ==========================================================================
+       Global Reset and Base Styles
+       ========================================================================== */
+      :root {
+        --primary-blue: #667eea;
+        --secondary-blue: #764ba2;
+        --success-green: #10b981;
+        --error-red: #ef4444;
+        --text-primary: #1f2a44;
+        --text-secondary: #6b7280;
+        --text-light: #e2e8f0;
+        --bg-light: #f8fafc;
+        --bg-dark: #0f172a;
+        --shadow-light: rgba(0, 0, 0, 0.08);
+        --shadow-dark: rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: inherit;
+      }
+
+      html {
+        font-size: 62.5%;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        color: var(--text-primary);
+        background: linear-gradient(
+          135deg,
+          var(--bg-light) 0%,
+          #e2e8f0 50%,
+          #d1d5db 100%
+        );
+        min-height: 100vh;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow-x: hidden;
+        animation: backgroundShift 20s ease-in-out infinite;
+      }
+
+      body.dark-mode {
+        background: linear-gradient(
+          135deg,
+          var(--bg-dark) 0%,
+          #1e293b 50%,
+          #334155 100%
+        );
+      }
+
+      @keyframes backgroundShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      /* ==========================================================================
+       Navbar
+       ========================================================================== */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.6rem 2rem;
+        background-color: #ffffff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px var(--shadow-light);
+        margin: 2rem auto;
+        max-width: 120rem;
+      }
+
+      body.dark-mode nav {
+        background-color: #1e293b;
+        box-shadow: 0 4px 8px var(--shadow-dark);
+      }
+
+      .nav__left {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .nav__right {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .logo {
+        height: 4.8rem;
+        transition: filter 0.3s ease, transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .logo {
+        filter: brightness(0) invert(1);
+      }
+
+      .nav__title {
+        font-size: 2.4rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      body.dark-mode .nav__title {
+        color: var(--text-light);
+      }
+
+      /* ==========================================================================
+       Dark Mode Toggle
+       ========================================================================== */
+      .dark-mode-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 3.6rem;
+        height: 3.6rem;
+        border-radius: 50%;
+        color: var(--text-primary);
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .dark-mode-btn {
+        color: var(--text-light);
+      }
+
+      .dark-mode-btn:hover,
+      .dark-mode-btn:focus {
+        background-color: #e5e7eb;
+        transform: scale(1.05);
+      }
+
+      body.dark-mode .dark-mode-btn:hover,
+      body.dark-mode .dark-mode-btn:focus {
+        background-color: #334155;
+      }
+
+      .dark-mode-btn svg {
+        width: 2.4rem;
+        height: 2.4rem;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+
+      .dark-mode-btn.animating svg {
+        transform: rotate(360deg);
+        opacity: 0.5;
+      }
+
+      body.dark-mode .dark-mode-btn .sun,
+      body.dark-mode .dark-mode-btn .sun-ray {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      body:not(.dark-mode) .dark-mode-btn .moon {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      body.dark-mode .dark-mode-btn .moon {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      body:not(.dark-mode) .dark-mode-btn .sun,
+      body:not(.dark-mode) .dark-mode-btn .sun-ray {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* ==========================================================================
+       Home Button
+       ========================================================================== */
+      .home-btn {
+        border-radius: 1rem;
+        padding: 1.4rem 2.4rem;
+        font-size: 1.7rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue),
+          var(--secondary-blue)
+        );
+        border: none;
+        color: white;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .home-btn:hover {
+        background: linear-gradient(135deg, #2563eb, #4c1d95);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      }
+
+      body.dark-mode .home-btn:hover {
+        background: linear-gradient(135deg, #3b82f6, #6b46c1);
+      }
+
+      .home-btn:active {
+        transform: translateY(0);
+      }
+
+      .home-btn svg {
+        width: 2rem;
+        height: 2rem;
+        fill: #ffffff;
+        transition: transform 0.3s ease;
+      }
+
+      .home-btn:hover svg {
+        transform: scale(1.1);
+      }
+
+      /* ==========================================================================
+       Loading Screen
+       ========================================================================== */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue),
+          var(--secondary-blue)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+      }
+
+      body.dark-mode .loading-screen {
+        background: linear-gradient(135deg, #60a5fa, #4b5563);
+      }
+
+      .loading-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loading-content {
+        text-align: center;
+        color: var(--text-light);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+      }
+
+      .loading-logo img {
+        height: 6rem;
+        filter: brightness(0) invert(100%) brightness(110%) contrast(110%);
+        animation: logoFloat 2.5s ease-in-out infinite;
+      }
+
+      .loading-spinner {
+        margin: 1.2rem 0;
+      }
+
+      .spinner {
+        width: 5rem;
+        height: 5rem;
+        border: 6px solid rgba(255, 255, 255, 0.2);
+        border-left: 6px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+      }
+
+      .loading-text {
+        font-size: 1.6rem;
+        font-weight: 500;
+        letter-spacing: 0.05rem;
+        animation: textPulse 2.5s ease-in-out infinite;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+      }
+
+      .loading-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .loading-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        animation: particleFloat 12s linear infinite;
+      }
+
+      .loading-particle:nth-child(2n) {
+        background: rgba(16, 185, 129, 0.4);
+        animation-duration: 15s;
+      }
+
+      .loading-particle:nth-child(3n) {
+        background: rgba(139, 92, 246, 0.4);
+        animation-duration: 18s;
+      }
+
+      @keyframes logoFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes textPulse {
+        0%,
+        100% {
+          opacity: 0.7;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes particleFloat {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 0.2;
+        }
+        100% {
+          transform: translate(calc(100vw * var(--x)), calc(100vh * var(--y)));
+          opacity: 0;
+        }
+      }
+
+      /* ==========================================================================
+       Container
+       ========================================================================== */
+      .container {
+        max-width: 120rem;
+        margin: 0 auto;
+        padding: 0 2.4rem;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* ==========================================================================
+       Login Section
+       ========================================================================== */
+      .login-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 0;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .login-section.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section__title {
+        font-size: 4rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 1.2rem;
+        color: var(--text-primary);
+        text-shadow: 0 2px 4px var(--shadow-light);
+      }
+
+      .section__subtitle {
+        font-size: 1.8rem;
+        font-weight: 400;
+        text-align: center;
+        color: var(--text-secondary);
+        margin-bottom: 4rem;
+      }
+
+      body.dark-mode .section__title,
+      body.dark-mode .section__subtitle {
+        color: var(--text-light);
+        text-shadow: 0 2px 4px var(--shadow-dark);
+      }
+
+      .login-container {
+        max-width: 60rem;
+        width: 100%;
+        background: #ffffff;
+        padding: 4rem;
+        border-radius: 1.6rem;
+        box-shadow: 0 8px 24px var(--shadow-light);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body.dark-mode .login-container {
+        background: #1e293b;
+        box-shadow: 0 8px 24px var(--shadow-dark);
+      }
+
+      .login-container:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px var(--shadow-light);
+      }
+
+      body.dark-mode .login-container:hover {
+        box-shadow: 0 12px 32px var(--shadow-dark);
+      }
+
+      .login-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-blue),
+          var(--secondary-blue)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .login-container:hover::before {
+        transform: scaleX(1);
+      }
+
+      .login-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .form-group {
+        position: relative;
+      }
+
+      .form-label {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        position: absolute;
+        top: 1.4rem;
+        left: 1.8rem;
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      .login-input:focus + .form-label,
+      .login-input:not(:placeholder-shown) + .form-label {
+        top: -1rem;
+        left: 1.2rem;
+        font-size: 1.3rem;
+        color: var(--primary-blue);
+        background: #ffffff;
+        padding: 0 0.5rem;
+      }
+
+      body.dark-mode .login-input:focus + .form-label,
+      body.dark-mode .login-input:not(:placeholder-shown) + .form-label {
+        color: #60a5fa;
+        background: #1e293b;
+      }
+
+      .login-input {
+        width: 100%;
+        padding: 1.4rem 1.8rem;
+        font-size: 1.7rem;
+        border-radius: 1rem;
+        border: 1px solid #d1d5db;
+        background-color: #ffffff;
+        color: var(--text-primary);
+        outline: none;
+        transition: all 0.3s;
+      }
+
+      body.dark-mode .login-input {
+        background-color: #374151;
+        color: var(--text-light);
+        border-color: #4b5563;
+      }
+
+      .login-input:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+      }
+
+      body.dark-mode .login-input:focus {
+        border-color: #60a5fa;
+      }
+
+      .login-input.error {
+        border-color: var(--error-red);
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+        animation: shake 0.5s ease-in-out;
+      }
+
+      .login-input::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.6;
+      }
+
+      body.dark-mode .login-input::placeholder {
+        color: #9ca3af;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 1.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+
+      body.dark-mode .password-toggle {
+        color: #9ca3af;
+      }
+
+      .login-hint {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        text-align: center;
+        margin-top: 1.2rem;
+      }
+
+      body.dark-mode .login-hint {
+        color: #9ca3af;
+      }
+
+      .login-footer {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 2.4rem;
+        color: var(--text-secondary);
+      }
+
+      body.dark-mode .login-footer {
+        color: #9ca3af;
+      }
+
+      .login-link {
+        color: var(--primary-blue);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      body.dark-mode .login-link {
+        color: #60a5fa;
+      }
+
+      .login-link:hover,
+      .login-link:focus {
+        color: #2563eb;
+      }
+
+      body.dark-mode .login-link:hover,
+      body.dark-mode .login-link:focus {
+        color: #3b82f6;
+      }
+
+      /* ==========================================================================
+       Buttons
+       ========================================================================== */
+      .btn {
+        border-radius: 1rem;
+        padding: 1.4rem 2.4rem;
+        font-size: 1.7rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary-blue),
+          var(--secondary-blue)
+        );
+        border: none;
+        color: white;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn:hover {
+        background: linear-gradient(135deg, #2563eb, #4c1d95);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      }
+
+      body.dark-mode .btn:hover {
+        background: linear-gradient(135deg, #3b82f6, #6b46c1);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .btn.loading::after {
+        content: '';
+        position: absolute;
+        width: 1.8rem;
+        height: 1.8rem;
+        border: 2px solid transparent;
+        border-top: 2px solid #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .btn.loading span {
+        opacity: 0;
+      }
+
+      .btn svg {
+        width: 2rem;
+        height: 2rem;
+        fill: #ffffff;
+        transition: transform 0.3s ease;
+      }
+
+      .btn:hover svg {
+        transform: scale(1.1);
+      }
+
+      /* ==========================================================================
+       Toast Notifications
+       ========================================================================== */
+      .toast {
+        position: fixed;
+        bottom: 2.4rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        padding: 1.2rem 2.4rem;
+        border-radius: 0.8rem;
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 1000;
+        box-shadow: 0 4px 12px var(--shadow-light);
+        max-width: 32rem;
+        width: 90%;
+        text-align: center;
+        line-height: 1.5;
+        overflow-wrap: break-word;
+        hyphens: auto;
+      }
+
+      body.dark-mode .toast {
+        box-shadow: 0 4px 12px var(--shadow-dark);
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .toast.success {
+        background-color: var(--success-green);
+      }
+
+      .toast.error {
+        background-color: var(--error-red);
+      }
+
+      /* ==========================================================================
+       Animations
+       ========================================================================== */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      /* ==========================================================================
+       Responsive Design
+       ========================================================================== */
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 1.8rem;
+        }
+
+        nav {
+          padding: 1.2rem;
+          margin: 1.8rem;
+        }
+
+        .section__title {
+          font-size: 3.2rem;
+        }
+
+        .section__subtitle {
+          font-size: 1.6rem;
+        }
+
+        .login-section {
+          padding: 3rem 0;
+        }
+
+        .login-container {
+          padding: 3rem;
+          max-width: 90%;
+        }
+
+        .login-form {
+          gap: 1.6rem;
+        }
+
+        .login-input {
+          font-size: 1.5rem;
+          padding: 1.2rem 1.6rem;
+        }
+
+        .form-label {
+          font-size: 1.4rem;
+          top: 1.2rem;
+          left: 1.6rem;
+        }
+
+        .login-input:focus + .form-label,
+        .login-input:not(:placeholder-shown) + .form-label {
+          top: -0.8rem;
+          font-size: 1.2rem;
+        }
+
+        .btn,
+        .home-btn {
+          padding: 1.2rem 2rem;
+          font-size: 1.5rem;
+        }
+
+        .btn svg,
+        .home-btn svg {
+          width: 1.8rem;
+          height: 1.8rem;
+        }
+
+        .login-footer {
+          font-size: 1.4rem;
+        }
+
+        .dark-mode-btn {
+          width: 3.2rem;
+          height: 3.2rem;
+        }
+
+        .dark-mode-btn svg {
+          width: 2.2rem;
+          height: 2.2rem;
+        }
+
+        .toast {
+          max-width: 28rem;
+          font-size: 1.4rem;
+          padding: 1rem 2rem;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .section__title {
+          font-size: 2.8rem;
+        }
+
+        .section__subtitle {
+          font-size: 1.4rem;
+        }
+
+        .login-container {
+          padding: 2rem;
+        }
+
+        .login-input {
+          font-size: 1.4rem;
+          padding: 1rem 1.4rem;
+        }
+
+        .form-label {
+          font-size: 1.3rem;
+          top: 1rem;
+          left: 1.4rem;
+        }
+
+        .login-input:focus + .form-label,
+        .login-input:not(:placeholder-shown) + .form-label {
+          top: -0.7rem;
+          font-size: 1.1rem;
+        }
+
+        .btn,
+        .home-btn {
+          font-size: 1.4rem;
+          padding: 1rem 1.8rem;
+        }
+
+        .login-hint {
+          font-size: 1.3rem;
+        }
+
+        .login-footer {
+          font-size: 1.3rem;
+        }
+
+        .toast {
+          max-width: 24rem;
+          font-size: 1.3rem;
+          padding: 0.8rem 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="loading-logo">
+          <img src="img/logo.png" alt="Bankist Logo" loading="lazy" />
+        </div>
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+        <p class="loading-text">Welcome to Bankist</p>
+        <div class="loading-particles">
+          <div class="loading-particle" style="--x: 0.2; --y: 0.3"></div>
+          <div class="loading-particle" style="--x: -0.4; --y: 0.5"></div>
+          <div class="loading-particle" style="--x: 0.6; --y: -0.2"></div>
+          <div class="loading-particle" style="--x: -0.1; --y: -0.4"></div>
+          <div class="loading-particle" style="--x: 0.3; --y: 0.1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav>
+      <div class="nav__left">
+        <img src="img/logo.png" alt="Bankist Logo" class="logo" />
+      </div>
+      <div class="nav__right">
+        <button class="home-btn" onclick="window.location.href='index.html'">
+          <span>Home</span>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 9h6V3h6v6h6v6h-6v6H9v-6H3V9z" fill="currentColor" />
+          </svg>
+        </button>
+        <button
+          class="dark-mode-btn"
+          id="dark-mode-toggle"
+          aria-label="Toggle dark mode"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle class="sun" cx="12" cy="12" r="5" />
+            <line class="sun-ray" x1="12" y1="1" x2="12" y2="3" />
+            <line class="sun-ray" x1="12" y1="21" x2="12" y2="23" />
+            <line class="sun-ray" x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line class="sun-ray" x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line class="sun-ray" x1="1" y1="12" x2="3" y2="12" />
+            <line class="sun-ray" x1="21" y1="12" x2="23" y2="12" />
+            <line class="sun-ray" x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line class="sun-ray" x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            <path
+              class="moon"
+              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+            />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+
+    <!-- Main Content -->
+    <main class="container">
+      <section class="section login-section">
+        <h2 class="section__title">Sign in to Bankist</h2>
+        <p class="section__subtitle">Securely manage your financial future</p>
+        <div class="login-container">
+          <form id="login-form" class="login-form" novalidate>
+            <div class="form-group">
+              <input
+                type="text"
+                id="login-username"
+                class="login-input"
+                placeholder=" "
+                required
+                aria-describedby="username-hint"
+              />
+              <label for="login-username" class="form-label">Username</label>
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                id="login-password"
+                class="login-input"
+                placeholder=" "
+                maxlength="4"
+                required
+                aria-describedby="password-hint"
+              />
+              <label for="login-password" class="form-label">PIN</label>
+              <button
+                type="button"
+                class="password-toggle"
+                aria-label="Toggle PIN visibility"
+              >
+                Show
+              </button>
+            </div>
+            <p id="login-hint" class="login-hint" role="alert"></p>
+            <button type="submit" class="btn">
+              <span>Sign In</span>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M5 12h14M12 5l7 7-7 7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </form>
+          <p class="login-footer">
+            New to Bankist?
+            <a href="#signup" class="login-link">Create Account</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      'use strict';
+
+      // Default accounts data
+      const defaultAccount1 = {
+        username: 'jonas',
+        owner: 'Jonas Schmedtmann',
+        movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+        interestRate: 1.2,
+        pin: 1111,
+        movementsDates: [
+          '2024-08-18T21:31:17.178Z',
+          '2025-06-23T07:42:02.383Z',
+          '2025-01-28T09:15:04.904Z',
+          '2025-04-01T10:17:24.185Z',
+          '2025-05-08T14:11:59.604Z',
+          '2025-05-27T17:01:17.194Z',
+          '2025-07-11T23:36:17.929Z',
+          '2025-08-30T10:51:36.790Z',
+        ],
+        currency: 'EUR',
+        locale: 'pt-PT',
+        pendingRequests: [],
+      };
+
+      const defaultAccount2 = {
+        username: 'jessica',
+        owner: 'Jessica Davis',
+        movements: [
+          5000, 3400, -150, -790, -3210, -1000, 8500, -30, 200, 100, 400,
+        ],
+        interestRate: 1.5,
+        pin: 2222,
+        movementsDates: [
+          '2025-08-01T13:15:33.035Z',
+          '2025-05-30T09:48:16.867Z',
+          '2025-06-25T06:04:23.907Z',
+          '2025-01-25T14:18:46.235Z',
+          '2025-02-05T16:33:06.386Z',
+          '2025-04-10T14:43:26.374Z',
+          '2025-06-25T18:49:59.371Z',
+          '2025-07-24T12:01:20.894Z',
+          '2025-07-20T12:01:20.894Z',
+          '2025-07-21T12:01:20.894Z',
+          '2025-07-25T12:01:20.894Z',
+        ],
+        currency: 'USD',
+        locale: 'en-US',
+        pendingRequests: [],
+      };
+
+      const defaultAccount3 = {
+        username: 'abdelrahman',
+        owner: 'Abdelrahman Ahmed',
+        movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+        interestRate: 1.5,
+        pin: 3333,
+        movementsDates: [
+          '2025-01-01T13:15:33.035Z',
+          '2025-03-30T09:48:16.867Z',
+          '2025-04-25T06:04:23.907Z',
+          '2025-01-25T14:18:46.235Z',
+          '2025-02-05T16:33:06.386Z',
+          '2025-04-10T14:43:26.374Z',
+          '2025-06-25T18:49:59.371Z',
+          '2025-07-26T12:01:20.894Z',
+        ],
+        currency: 'EGP',
+        locale: 'en-US',
+        pendingRequests: [],
+      };
+
+      const defaultAccount4 = {
+        username: 'Ahmed',
+        owner: 'Ahmed Ezzat',
+        movements: [
+          5000, 3400, -150, -790, -3210, -1000, 8500, -30, 1000, -500,
+        ],
+        interestRate: 1.5,
+        pin: 4444,
+        movementsDates: [
+          '2025-07-01T13:15:33.035Z',
+          '2025-03-30T09:48:16.867Z',
+          '2025-04-25T06:04:23.907Z',
+          '2025-01-25T14:18:46.235Z',
+          '2025-02-05T16:33:06.386Z',
+          '2025-04-10T14:43:26.374Z',
+          '2025-06-25T18:49:59.371Z',
+          '2025-07-26T12:01:20.894Z',
+          '2025-08-01T10:00:00Z',
+          '2025-08-31T10:00:00Z',
+        ],
+        currency: 'EGP',
+        locale: 'en-US',
+        pendingRequests: [],
+      };
+
+      const defaultAccounts = [
+        defaultAccount1,
+        defaultAccount2,
+        defaultAccount3,
+        defaultAccount4,
+      ];
+
+      // Load accounts from localStorage
+      const loadAccounts = () => {
+        const data = localStorage.getItem('bankistAccounts');
+        if (data) {
+          return JSON.parse(data);
+        }
+        return defaultAccounts;
+      };
+
+      // Save accounts to localStorage
+      const saveAccounts = accs => {
+        localStorage.setItem('bankistAccounts', JSON.stringify(accs));
+      };
+
+      let accounts = loadAccounts();
+
+      // Utility Functions
+      const showToast = (message, type = 'success') => {
+        const toast = document.querySelector('#toast');
+        toast.textContent = message;
+        toast.className = `toast show ${type}`;
+        setTimeout(() => {
+          toast.className = 'toast';
+        }, 3000);
+      };
+
+      const debounce = (func, wait) => {
+        let timeout;
+        return (...args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+      };
+
+      // Loading Screen
+      window.addEventListener('load', () => {
+        const loadingScreen = document.querySelector('#loading-screen');
+        if (loadingScreen) {
+          setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+              loadingScreen.style.display = 'none';
+            }, 600);
+          }, 1500);
+        }
+      });
+
+      // Initialize particles for loading screen
+      const particles = document.querySelectorAll('.loading-particle');
+      particles.forEach(particle => {
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+      });
+
+      // Dark Mode Toggle
+      const toggleDarkMode = () => {
+        const darkModeBtn = document.querySelector('.dark-mode-btn');
+        darkModeBtn.classList.add('animating');
+        setTimeout(() => {
+          darkModeBtn.classList.remove('animating');
+        }, 500);
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem(
+          'darkMode',
+          document.body.classList.contains('dark-mode') ? 'true' : 'false'
+        );
+        showToast(
+          `Switched to ${
+            document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+          } mode`
+        );
+      };
+
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+
+      document
+        .querySelector('#dark-mode-toggle')
+        .addEventListener('click', toggleDarkMode);
+
+      // Password Toggle
+      const setupPasswordToggle = () => {
+        const passwordInput = document.querySelector('#login-password');
+        const passwordToggle = document.querySelector('.password-toggle');
+        if (passwordToggle && passwordInput) {
+          passwordToggle.addEventListener('click', () => {
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            passwordToggle.textContent = isHidden ? 'Hide' : 'Show';
+          });
+        }
+      };
+
+      // Form Validation (using loaded accounts)
+      const validateForm = (username, password) => {
+        const pinRegex = /^\d{4}$/;
+        const account = accounts.find(acc => acc.username === username);
+
+        if (!account) {
+          return {
+            valid: false,
+            message: 'Invalid username. Please check and try again.',
+            type: 'error',
+          };
+        }
+        if (!pinRegex.test(password) || Number(password) !== account.pin) {
+          return {
+            valid: false,
+            message:
+              'Invalid PIN. Must be a 4-digit number matching your account.',
+            type: 'error',
+          };
+        }
+        return { valid: true, message: 'Valid credentials.' };
+      };
+
+      // Login Form
+      const setupLoginForm = () => {
+        const loginForm = document.querySelector('#login-form');
+        const loginUsername = document.querySelector('#login-username');
+        const loginPassword = document.querySelector('#login-password');
+        const loginHint = document.querySelector('#login-hint');
+        const submitBtn = loginForm.querySelector('.btn');
+        const loadingScreen = document.querySelector('#loading-screen');
+
+        if (loginForm) {
+          loginForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const username = loginUsername.value.trim().toLowerCase();
+            const password = loginPassword.value.trim();
+
+            const validation = validateForm(username, password);
+            if (!validation.valid) {
+              loginHint.textContent = validation.message;
+              loginHint.style.color = '#ef4444';
+              loginUsername.classList.add('error');
+              loginPassword.classList.add('error');
+              showToast(validation.message, validation.type);
+              setTimeout(() => {
+                loginUsername.classList.remove('error');
+                loginPassword.classList.remove('error');
+              }, 3000);
+              return;
+            }
+
+            // Store the authenticated username in sessionStorage
+            sessionStorage.setItem('authenticatedUser', username);
+
+            loginHint.textContent = 'Signing in...';
+            loginHint.style.color = '#10b981';
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            if (loadingScreen) {
+              loadingScreen.style.display = 'flex';
+              loadingScreen.classList.remove('hidden');
+            }
+
+            setTimeout(() => {
+              loginHint.textContent = 'Successfully signed in!';
+              loginHint.style.color = '#10b981';
+              showToast('Signed in successfully', 'success');
+              loginForm.reset();
+              submitBtn.classList.remove('loading');
+              submitBtn.disabled = false;
+
+              // Redirect to banking.html
+              setTimeout(() => {
+                window.location.href = 'banking.html';
+              }, 1500);
+            }, 900);
+          });
+
+          // Real-time validation
+          const debouncedValidate = debounce((input, type) => {
+            const validation = validateForm(
+              type === 'username' ? input.value : loginUsername.value,
+              type === 'password' ? input.value : loginPassword.value
+            );
+            if (!validation.valid) {
+              loginHint.textContent = validation.message;
+              loginHint.style.color = '#ef4444';
+              input.classList.add('error');
+            } else {
+              loginHint.textContent = '';
+              input.classList.remove('error');
+            }
+          }, 500);
+
+          loginUsername.addEventListener('input', () =>
+            debouncedValidate(loginUsername, 'username')
+          );
+          loginPassword.addEventListener('input', () =>
+            debouncedValidate(loginPassword, 'password')
+          );
+        }
+      };
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        setupPasswordToggle();
+        setupLoginForm();
+        const loginSection = document.querySelector('.login-section');
+        if (loginSection) {
+          setTimeout(() => {
+            loginSection.classList.add('animate');
+          }, 100);
+        }
+      });
+    </script>
+  </body>
+</html>
