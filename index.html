@@ -4,8 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="Bankist: Modern banking with instant transfers, digital tools, and free debit cards. Open your account today!"
+    />
     <title>Bankist | Modern Banking Simplified</title>
     <link rel="shortcut icon" type="image/png" href="img/icon.png" />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&display=swap"
+      as="style"
+    />
     <link
       href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&display=swap"
       rel="stylesheet"
@@ -75,11 +84,23 @@
           <span class="nav__toggle-icon"></span>
         </button>
         <ul class="nav__links" id="nav-menu">
-          <li><a href="#features" class="nav__link">Features</a></li>
-          <li><a href="#operations" class="nav__link">Operations</a></li>
-          <li><a href="#testimonials" class="nav__link">Testimonials</a></li>
           <li>
-            <a href="login.html" class="nav__link nav__link--btn">Login</a>
+            <a href="#features" class="nav__link" data-index="0">Features</a>
+          </li>
+          <li>
+            <a href="#operations" class="nav__link" data-index="1"
+              >Operations</a
+            >
+          </li>
+          <li>
+            <a href="#testimonials" class="nav__link" data-index="2"
+              >Testimonials</a
+            >
+          </li>
+          <li>
+            <a href="login.html" class="nav__link nav__link--btn" data-index="3"
+              >Login</a
+            >
           </li>
         </ul>
       </div>
@@ -553,21 +574,17 @@
     </section>
 
     <section class="section section--signup">
-      <div class="container">
-        <h2 class="section__title">Join Bankist Today!</h2>
-        <a href="login.html" class="btn btn--primary"
+      <div class="signup-hero">
+        <h2 class="signup-hero__title">Take Control of Your Finances</h2>
+        <p class="signup-hero__subtitle">
+          Join Bankist today and start managing your money with ease. Sign up
+          for free or subscribe to our newsletter for exclusive tips!
+        </p>
+        <a href="login.html" class="signup-hero__cta"
           >Open Your Free Account &rarr;</a
         >
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <form id="newsletter-form" class="newsletter" novalidate>
-          <h3 class="newsletter__title">Stay in the loop</h3>
-          <p class="newsletter__subtitle">
-            Get product updates and smart money tips.
-          </p>
+        <form id="newsletter-form" class="newsletter__form" novalidate>
+          <h3 class="newsletter__title">Stay Informed</h3>
           <div class="newsletter__controls">
             <label for="newsletter-email" class="sr-only">Email address</label>
             <input
@@ -579,10 +596,15 @@
               required
               aria-required="true"
             />
-            <button type="submit" class="btn newsletter__btn">Subscribe</button>
+            <button type="submit" class="newsletter__btn">Subscribe</button>
           </div>
           <p class="newsletter__hint" aria-live="polite"></p>
         </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
         <ul class="footer__nav">
           <li><a href="#" class="footer__link">About</a></li>
           <li><a href="#" class="footer__link">Pricing</a></li>

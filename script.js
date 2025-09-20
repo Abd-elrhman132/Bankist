@@ -124,12 +124,30 @@ document.querySelector('.nav__link--btn').addEventListener('click', e => {
   }, 1000);
 });
 
-// Hamburger Menu
-navToggle.addEventListener('click', () => {
-  navToggle.classList.toggle('active');
-  navLinks.classList.toggle('active');
-});
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.querySelector('.nav__toggle');
+  const navLinks = document.querySelector('.nav__links');
+  const navLinkItems = document.querySelectorAll('.nav__link');
 
+  navToggle.addEventListener('click', () => {
+    const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+    navToggle.setAttribute('aria-expanded', !isExpanded);
+    document.body.classList.toggle('nav-open');
+  });
+
+  // Close menu when a link is clicked
+  navLinkItems.forEach((link, index) => {
+    link.style.setProperty('--index', index); // Set --index for animation delay
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('nav-open');
+    });
+  });
+});
 // Smooth Scrolling
 document.querySelector('.nav__links').addEventListener('click', e => {
   e.preventDefault();
