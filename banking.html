@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,21 +16,63 @@
     <nav>
       <div class="nav__left">
         <p class="welcome" id="label-welcome">Log in to get started</p>
-        <a href="index.html"><img src="assets/img/logo.png" alt="Logo" class="logo" /></a>
+        <a href="index.html"
+          ><img src="assets/img/logo.png" alt="Logo" class="logo"
+        /></a>
       </div>
       <div class="nav__btns">
-        <button id="dark-mode-toggle" class="btn--nav" aria-label="Toggle dark mode" title="Toggle Theme">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button
+          id="dark-mode-toggle"
+          class="btn--nav"
+          aria-label="Toggle dark mode"
+          title="Toggle Theme"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <g class="sun">
-              <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </g>
-            <path class="moon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            <path
+              class="moon"
+              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+            />
           </svg>
         </button>
-        <button id="btn-reset" class="btn--nav" title="Reset All Data" style="color: #3b82f6;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <button
+          id="btn-reset"
+          class="btn--nav"
+          title="Reset All Data"
+          style="color: #3b82f6"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
         </button>
-        <button class="logout-btn" id="btn-logout" title="Exit Session">Logout</button>
+        <button class="logout-btn" id="btn-logout" title="Exit Session">
+          Logout
+        </button>
       </div>
     </nav>
 
@@ -40,7 +82,9 @@
       <div class="header-section">
         <div class="balance">
           <p class="balance__label">Available Balance</p>
-          <p class="balance__date">Last updated: <span id="label-date">00/00/0000</span></p>
+          <p class="balance__date">
+            Last updated: <span id="label-date">00/00/0000</span>
+          </p>
           <p class="balance__value" id="label-balance">0000€</p>
         </div>
 
@@ -65,7 +109,16 @@
           <div class="movements__header">
             <h3 class="movements__title">Recent Transactions</h3>
             <button class="btn--sort" id="btn-sort" title="Sort Transactions">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M6 12h12m-9 6h6"/></svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M3 6h18M6 12h12m-9 6h6" />
+              </svg>
               SORT
             </button>
           </div>
@@ -80,11 +133,23 @@
             <form class="form" id="form-transfer">
               <div class="form__group">
                 <label class="form__label">Recipient</label>
-                <input type="text" class="form__input" id="input-transfer-to" placeholder="Username" required />
+                <input
+                  type="text"
+                  class="form__input"
+                  id="input-transfer-to"
+                  placeholder="Username"
+                  required
+                />
               </div>
               <div class="form__group">
                 <label class="form__label">Amount</label>
-                <input type="number" class="form__input" id="input-transfer-amount" placeholder="0.00" required />
+                <input
+                  type="number"
+                  class="form__input"
+                  id="input-transfer-amount"
+                  placeholder="0.00"
+                  required
+                />
               </div>
               <button class="form__btn">Send Transfer &rarr;</button>
             </form>
@@ -95,11 +160,23 @@
             <form class="form" id="form-request">
               <div class="form__group">
                 <label class="form__label">Request from</label>
-                <input type="text" class="form__input" id="input-request-to" placeholder="Username" required />
+                <input
+                  type="text"
+                  class="form__input"
+                  id="input-request-to"
+                  placeholder="Username"
+                  required
+                />
               </div>
               <div class="form__group">
                 <label class="form__label">Amount</label>
-                <input type="number" class="form__input" id="input-request-amount" placeholder="0.00" required />
+                <input
+                  type="number"
+                  class="form__input"
+                  id="input-request-amount"
+                  placeholder="0.00"
+                  required
+                />
               </div>
               <button class="form__btn">Send Request &rarr;</button>
             </form>
@@ -110,7 +187,13 @@
             <form class="form" id="form-loan">
               <div class="form__group">
                 <label class="form__label">Loan Amount</label>
-                <input type="number" class="form__input" id="input-loan-amount" placeholder="0.00" required />
+                <input
+                  type="number"
+                  class="form__input"
+                  id="input-loan-amount"
+                  placeholder="0.00"
+                  required
+                />
               </div>
               <button class="form__btn">Get Instant Loan &rarr;</button>
             </form>
@@ -121,19 +204,36 @@
             <form class="form" id="form-close">
               <div class="form__group">
                 <label class="form__label">Username</label>
-                <input type="text" class="form__input" id="input-close-user" placeholder="Confirm username" required />
+                <input
+                  type="text"
+                  class="form__input"
+                  id="input-close-user"
+                  placeholder="Confirm username"
+                  required
+                />
               </div>
               <div class="form__group">
                 <label class="form__label">PIN</label>
-                <input type="password" class="form__input" maxlength="4" id="input-close-pin" placeholder="••••" required />
+                <input
+                  type="password"
+                  class="form__input"
+                  maxlength="4"
+                  id="input-close-pin"
+                  placeholder="••••"
+                  required
+                />
               </div>
-              <button class="form__btn" style="background: #be123c;">Close My Account</button>
+              <button class="form__btn" style="background: #be123c">
+                Close My Account
+              </button>
             </form>
           </div>
         </div>
       </div>
 
-      <p class="timer-label">Session ends in <span id="label-timer">05:00</span></p>
+      <p class="timer-label">
+        Session ends in <span id="label-timer">05:00</span>
+      </p>
     </main>
 
     <script src="assets/js/common.js"></script>

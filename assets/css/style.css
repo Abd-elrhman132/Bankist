@@ -911,7 +911,7 @@ body:not(.dark-mode) .dark-mode-btn .sun-ray {
       rgba(16, 185, 129, 0.6),
       rgba(139, 92, 246, 0.5)
     ),
-    url('../img/hero.png');
+    url('../img/hero-img.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
