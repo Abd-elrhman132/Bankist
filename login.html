@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="assets/img/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Bankist - Secure Login</title>
+    <link rel="stylesheet" href="assets/css/login.css" />
+  </head>
+  <body>
+    <div id="loading-screen" class="loading-screen">
+      <div style="text-align:center; color:white;">
+        <img src="assets/img/logo.png" height="60" style="filter: brightness(0) invert(1);" />
+        <p style="margin-top:1.5rem; font-size:1.6rem; font-weight:500;">Secure Login...</p>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav__left">
+        <a href="index.html" class="logo-link"><img src="assets/img/logo.png" alt="Bankist Logo" class="logo" /></a>
+      </div>
+      <button class="dark-mode-btn" id="dark-mode-toggle" aria-label="Toggle dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <g class="sun">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+          <path class="moon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+    </nav>
+
+    <div id="toast" class="toast"></div>
+
+    <main class="container">
+      <section class="section login-section">
+        <h2 class="section__title">Sign in to Bankist</h2>
+        <p class="section__subtitle">Securely manage your financial future</p>
+        <div class="login-container">
+          <form id="login-form" class="login-form" novalidate>
+            <div class="form-group">
+              <input type="text" id="login-username" class="login-input" placeholder=" " required />
+              <label class="form-label">Username</label>
+            </div>
+            <div class="form-group">
+              <input type="password" id="login-password" class="login-input" placeholder=" " maxlength="4" required />
+              <label class="form-label">PIN</label>
+              <button type="button" class="password-toggle">Show</button>
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+          </form>
+          <div class="test-credentials">
+            <h4>Quick Login</h4>
+            <div class="credentials-grid">
+              <div class="credential-card" data-user="jonas" data-pin="1111">
+                <div class="cred-row"><span>User</span><span class="cred-value">jonas</span></div>
+                <div class="cred-row"><span>PIN</span><span class="cred-value">1111</span></div>
+              </div>
+              <div class="credential-card" data-user="jessica" data-pin="2222">
+                <div class="cred-row"><span>User</span><span class="cred-value">jessica</span></div>
+                <div class="cred-row"><span>PIN</span><span class="cred-value">2222</span></div>
+              </div>
+              <div class="credential-card" data-user="abdelrahman" data-pin="3333">
+                <div class="cred-row"><span>User</span><span class="cred-value">abdelrahman</span></div>
+                <div class="cred-row"><span>PIN</span><span class="cred-value">3333</span></div>
+              </div>
+              <div class="credential-card" data-user="ahmed" data-pin="4444">
+                <div class="cred-row"><span>User</span><span class="cred-value">ahmed</span></div>
+                <div class="cred-row"><span>PIN</span><span class="cred-value">4444</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/login.js"></script>
+  </body>
+</html>
